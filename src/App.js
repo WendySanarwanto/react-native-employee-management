@@ -6,11 +6,12 @@ import thunk from 'redux-thunk';
 import firebase from 'firebase';
 
 import { Header } from './components/common/Header';
+import LoginForm from './components/LoginForm';
 import reducers from './reducers';
 
 const appStore = createStore(reducers, applyMiddleware(thunk));
 
-const App = props => {
+const App = _ => {
   // componentDidMount
   useEffect(() => {
     // console.log(`[DEBUG]<App> 'componentDidMount' event is fired`);
@@ -23,13 +24,14 @@ const App = props => {
       messagingSenderId: '460944330860',
       appId: '1:460944330860:web:265fd4967f6a42b3',
     };
-    // Initialize Firebase
+    // Initialize Firebase. This should be happened at once only
     this.fbaseApp = firebase.initializeApp(firebaseConfig);
   });
   return (
     <Provider store={appStore}>
       <View style={styles.mainViewStyle}>
         <Header title="Manager" />
+        <LoginForm />
       </View>
     </Provider>
   );
