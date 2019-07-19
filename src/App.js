@@ -9,7 +9,7 @@ import { Header } from './components/common/Header';
 import LoginForm from './components/LoginForm';
 import reducers from './reducers';
 
-const appStore = createStore(reducers, applyMiddleware(thunk));
+const appStore = createStore(reducers, {}, applyMiddleware(thunk));
 
 const App = _ => {
   // componentDidMount
