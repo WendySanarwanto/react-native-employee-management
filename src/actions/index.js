@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 
 import { EMAIL_CHANGED, PASSWORD_CHANGED, LOGIN_USER_SUCCESS, 
   LOGIN_USER_FAILED, LOGIN_USER } from './types';
@@ -24,6 +25,7 @@ function loginUserSuccess(dispatch, user){
     type: LOGIN_USER_SUCCESS,
     payload: user
   });
+  Actions.employeeList();
 };
 
 function loginUserFail(dispatch, err) {
