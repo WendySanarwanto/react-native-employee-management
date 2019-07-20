@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 
-import { EMAIL_CHANGED, PASSWORD_CHANGED, LOGIN_USER_SUCCESS, LOGIN_USER_FAILED } from './types';
+import { EMAIL_CHANGED, PASSWORD_CHANGED, LOGIN_USER_SUCCESS, 
+  LOGIN_USER_FAILED, LOGIN_USER } from './types';
 
 function textChanged(text, actionType) {
   return {
@@ -34,6 +35,7 @@ function loginUserFail(dispatch, err) {
 }
 
 export const loginUser = ({ email, password }) => async(dispatch) => {
+  dispatch({ type: LOGIN_USER });
   let user;
   try {
     user = await firebase.auth().signInWithEmailAndPassword(email, password);
