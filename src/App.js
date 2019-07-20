@@ -5,9 +5,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import firebase from 'firebase';
 
-import { Header } from './components/common/Header';
-import LoginForm from './components/LoginForm';
 import reducers from './reducers';
+import Router from './Router';
 
 const appStore = createStore(reducers, {}, applyMiddleware(thunk));
 
@@ -30,8 +29,7 @@ const App = _ => {
   return (
     <Provider store={appStore}>
       <View style={styles.mainViewStyle}>
-        <Header title="Manager" />
-        <LoginForm />
+        <Router />
       </View>
     </Provider>
   );
