@@ -6,15 +6,14 @@ class EmployeeItem extends Component {
     const { name, phone, shift } = this.props.Item;
     return (
       <Card>
-        <CardSection>
-          <LabelField name="Name" value={ name } />
+        <CardSection style={{ padding: 0 }}>
+          <LabelField value={ name } hideLabel
+            viewStyle={ { backgroundColor: '#1a73e8' } } 
+            textStyle={ { color: '#ffffff', paddingLeft: 20 } }/>
         </CardSection>
         
-        <CardSection>
+        <CardSection style={{flexDirection: 'column'}}>
           <LabelField name="Phone" value={ phone } />
-        </CardSection>
-
-        <CardSection>
           <LabelField name="Shift" value={ shift } />
         </CardSection>        
       </Card>

@@ -1,12 +1,19 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-const LabelField = ({ name, value }) => {
+const LabelField = ({ name, value, viewStyle, textStyle, hideLabel }) => {
   const { containerStyle, labelStyle, valueStyle } = styles;
+
+  const renderLabel = (hideLabel) => {
+    if (!hideLabel) {
+      return <Text style={ {...labelStyle, ...textStyle}}>{ name }</Text>;
+    }
+  };
+
   return (
-    <View style={containerStyle}>
-      <Text style={labelStyle}>{ name }</Text>
-      <Text style={valueStyle}>{ value }</Text>
+    <View style={ {...containerStyle, ...viewStyle} }>
+      { renderLabel(hideLabel) }
+      <Text style={{...valueStyle, ...textStyle}}>{ value }</Text>
     </View>
   );
 };
@@ -16,7 +23,7 @@ const styles = {
     height: 40,
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center'    
   },
   labelStyle: {
     fontSize: 18,
