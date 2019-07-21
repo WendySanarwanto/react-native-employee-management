@@ -26,7 +26,7 @@ const App = _ => {
       appId: FIREBASE_APP_ID,
     };
     // Initialize Firebase. This should be happened at once only
-    this.fbaseApp = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
   });
   return (
     <Provider store={appStore}>
