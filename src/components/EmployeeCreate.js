@@ -1,14 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Text, View } from 'react-native';
 
-import { Input, Button, Card, CardSection, DayPicker } from '../components/common';
-import { employeeUpdate } from '../actions/EmployeeActions';
+import { Input, Button, Card, CardSection, DayPicker, Spinner } from '../components/common';
+import { employeeCreate, employeeUpdate } from '../actions/EmployeeActions';
 
 class EmployeeCreate extends Component {
+  onSaveButtonClicked = () => {
+    const { name, phone, shift, employeeCreate } = this.props;
+    // console.log(`[DEBUG]<EmployeeCreate.onSaveButtonClicked()> name: ${name}, phone: ${phone}, shift: ${shift}`);
+    employeeCreate({ name, phone, shift: shift || 'Monday' });
+  }
+
+  renderButtonOrSpinner = () => {
+    const { saving } = this.props;
+    if (saving) {
+      return <Spinner />
+    }
+
+    return <Button label="Save" onClicked={ this.onSaveButtonClicked } />
+  }
+
+  renderError = () => {
+    if (this.props.error){
+      return (
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={ styles.errorTextStyle }>
+            { this.props.error }
+          </Text>
+        </View>
+      );
+    }
+  }
+
   render(){    
     const { name, phone, shift, employeeUpdate } = this.props;
     // console.log(`[DEBUG]<EmployeeCreate.render()> name: ${name}, phone: ${phone}, shift: ${shift}`);
-
     return (
       <Card>
         <CardSection>
@@ -35,9 +62,9 @@ class EmployeeCreate extends Component {
             onValueChanged={ value => employeeUpdate({ prop: 'shift', value }) }
           />
         </CardSection>
-
+        { this.renderError() }
         <CardSection>
-          <Button label="Save"  />
+          { this.renderButtonOrSpinner() }
         </CardSection>
       </Card>
     );
@@ -45,13 +72,29 @@ class EmployeeCreate extends Component {
 };
 
 function mapStateToProps( state ) {  
-  const { name, phone, shift } = state.employeeForm;
+  const { name, phone, shift, saving, error } = state.employeeForm;
   // console.log(`[DEBUG]<EmployeeCreate.mapStateToProps()> name: ${name}, phone: ${phone}, shift: ${shift}`);
   return {
     name,
     phone,
     shift,
+    saving,
+    error,
   };
 }
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red',
+    padding: 10
+  }
+}
+
+export default connect(
+  mapStateToProps, { 
+    employeeCreate, 
+    employeeUpdate 
+  }
+)(EmployeeCreate);
