@@ -62,7 +62,7 @@ export const employeeUpdate = ({ prop, value }) => {
   };
 };
 
-export const employeesFetch = _ => async (dispatch) => {
+export const employeesFetchOld = _ => async (dispatch) => {
   dispatch({ type: EMPLOYEE_FETCH });
   try {
     const { currentUser } = firebase.auth();
@@ -76,6 +76,28 @@ export const employeesFetch = _ => async (dispatch) => {
     });
     console.log(`[DEBUG]<employeesFetch> employees: \n`, employees);
     fetchEmployeesSuccess(dispatch, employees);
+  } catch(err) {
+    console.log(`[ERROR]<employeesFetch> err: \n`, err);
+    fetchEmployeesFailed(dispatch);
+  }
+}
+
+export const employeesFetch = _ => async (dispatch) => {
+  dispatch({ type: EMPLOYEE_FETCH });
+  try {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    db.collection(`users/${currentUser.uid}/employees/`)
+      .onSnapshot((querySnapshot) => {
+        const employees = [];
+        querySnapshot.forEach(doc => {       
+          const data = doc.data();
+          data.id = doc.id;
+          employees.push(data);
+        });
+        console.log(`[DEBUG]<employeesFetch> employees: \n`, employees);
+        fetchEmployeesSuccess(dispatch, employees);    
+      });
   } catch(err) {
     console.log(`[ERROR]<employeesFetch> err: \n`, err);
     fetchEmployeesFailed(dispatch);
