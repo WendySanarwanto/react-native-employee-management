@@ -15,7 +15,7 @@ function createEmployeeSuccess(dispatch) {
   dispatch({
     type: EMPLOYEE_CREATE_SUCCESS,
   });
-  Actions.employeeList();
+  Actions.pop();
 }
 
 export const employeeCreate = ({ name, phone, shift }) => async(dispatch) => {

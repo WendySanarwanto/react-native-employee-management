@@ -1,8 +1,7 @@
 import { EMPLOYEE_CREATE, EMPLOYEE_CREATE_SUCCESS,  
-  LOGIN_USER_FAILED, EMPLOYEE_UPDATE, EMPLOYEE_CREATE_FAILED } from '../actions/types';
+  EMPLOYEE_UPDATE, EMPLOYEE_CREATE_FAILED } from '../actions/types';
 
 const INITIAL_STATE = {
-  id: null,
   name: null,
   phone: null,
   shift: null,
@@ -17,7 +16,7 @@ export default EmployeeFormReducer = (state = INITIAL_STATE, action) => {
       // console.log(`[DEBUG]<EmployeeFormReducer> updatedState: \n`, updatedState);
       return updatedState;
     case EMPLOYEE_CREATE_SUCCESS:
-      return { ...state,  id: '', name: '', phone: '', shift: null, saving: false, error: ''};
+      return { ...state,  ...INITIAL_STATE};
     case EMPLOYEE_CREATE_FAILED:
       return { ...state, saving: false, error: 'Creating an Employee is failed.'};
     case EMPLOYEE_CREATE:
