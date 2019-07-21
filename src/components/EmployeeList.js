@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 
 import { Button, Card, CardSection, Spinner } from '../components/common';
+import EmployeeItem from './EmployeeItem';
 import { employeesFetch } from '../actions/EmployeeActions';
 
 class EmployeeList extends Component {
@@ -11,6 +12,14 @@ class EmployeeList extends Component {
   }
 
   keyExtractor = item => item.id.toString();
+
+  renderItem = ({ item }) => {
+    if (!item) {
+      return null;
+    }
+
+    return <EmployeeItem Item={ item } />
+  }
 
   renderErrorRefreshButton = error => {
     if (error) {
@@ -37,13 +46,11 @@ class EmployeeList extends Component {
 
     return (
       <CardSection style={{ flexDirection: 'column' }}>
-        <Text>Employee #1</Text>
-        <Text>Employee #2</Text>
-        <Text>Employee #3</Text>
-        <Text>Employee #4</Text>
-        <Text>Employee #5</Text>
-        <Text>Employee #6</Text>
-        <Text>Employee #7</Text>
+        <FlatList 
+          data={ employees }
+          keyExtractor={ this.keyExtractor }
+          renderItem={ this.renderItem }
+        />
       </CardSection>
     );
   }

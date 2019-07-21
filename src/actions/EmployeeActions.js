@@ -69,7 +69,11 @@ export const employeesFetch = _ => async (dispatch) => {
     const db = firebase.firestore();
     const querySnapshot = await db.collection(`users/${currentUser.uid}/employees/`).get();
     const employees = [];
-    querySnapshot.forEach(doc => employees.push(doc.data()));
+    querySnapshot.forEach(doc => {       
+      const data = doc.data();
+      data.id = doc.id;
+      employees.push(data);
+    });
     console.log(`[DEBUG]<employeesFetch> employees: \n`, employees);
     fetchEmployeesSuccess(dispatch, employees);
   } catch(err) {
