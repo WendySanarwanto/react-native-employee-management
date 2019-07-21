@@ -6,11 +6,12 @@ const INITIAL_STATE = {
   shift: null
 };
 
-export default EmployeeFormReducer = (state = INITIAL_STATE, action) => {
-  console.log(`[DEBUG]<EmployeeFormReducer> state: \n`, state);
+export default EmployeeFormReducer = (state = INITIAL_STATE, action) => {  
   switch(action.type) {
     case EMPLOYEE_UPDATE:
-      return { ...state, [action.payload.prop]: action.payload.value };
+      const updatedState = { ...state, [action.payload.prop]: action.payload.value };
+      // console.log(`[DEBUG]<EmployeeFormReducer> updatedState: \n`, updatedState);
+      return updatedState;
     default:
       return state;
   }
