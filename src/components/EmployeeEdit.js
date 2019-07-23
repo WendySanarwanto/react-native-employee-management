@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View } from 'react-native';
 
 import { Button, CardSection, Spinner } from '../components/common';
 import EmployeeForm from './EmployeeForm';
+import { employeeUpdate } from '../actions/EmployeeActions';
 
 class EmployeeEdit extends Component {
+  componentDidMount() {
+    const {employee, employeeUpdate} = this.props;
+    // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> employee: \n`, employee);
+    if (employee) {
+      const empEntries = Object.entries(employee);
+      // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> empEntries: \n`, empEntries);
+      empEntries.forEach(keyvaluePairs => employeeUpdate({ prop: keyvaluePairs[0], value: keyvaluePairs[1] }));
+    }    
+  }
+
   onSaveButtonClicked = () => {
-  //   const { name, phone, shift, employeeCreate } = this.props;
-    console.log(`[DEBUG]<EmployeeEdit.onSaveButtonClicked()> name: ${name}, phone: ${phone}, shift: ${shift}`);
+    const { id, name, phone, shift } = this.props;
+    console.log(`[DEBUG]<EmployeeEdit.onSaveButtonClicked()> id: ${id}, name: ${name}, phone: ${phone}, shift: ${shift}`);
   //   employeeCreate({ name, phone, shift: shift || 'Monday' });
   }
 
   onDeleteButtonClicked = () => {
-    console.log(`[DEBUG]<EmployeeEdit.onDeleteButtonClicked()> name: ${name}, phone: ${phone}, shift: ${shift}`);
+    const { id, name, phone, shift } = this.props;
+    console.log(`[DEBUG]<EmployeeEdit.onDeleteButtonClicked()> id: ${id}, name: ${name}, phone: ${phone}, shift: ${shift}`);
   }
 
   renderButtonsOrSpinner = () => {
@@ -22,10 +35,14 @@ class EmployeeEdit extends Component {
     }
 
     return (
-      <CardSection>
-        <Button label="Save" onClicked={ this.onSaveButtonClicked } />
-        <Button label="Delete" onClicked={ this.onDeleteButtonClicked } />
-      </CardSection>
+      <View>
+        <CardSection>
+          <Button label="Save" onClicked={ this.onSaveButtonClicked } />
+        </CardSection>
+        <CardSection>
+          <Button label="Delete" onClicked={ this.onDeleteButtonClicked } />
+        </CardSection>
+      </View>
     );
   }
 
@@ -41,9 +58,10 @@ class EmployeeEdit extends Component {
 };
 
 function mapStateToProps( state ) {  
-  const { name, phone, shift, saving, error } = state.employeeForm;
+  const { id, name, phone, shift, saving, error } = state.employeeForm;
   // console.log(`[DEBUG]<EmployeeCreate.mapStateToProps()> name: ${name}, phone: ${phone}, shift: ${shift}`);
   return {
+    id,
     name,
     phone,
     shift,
@@ -53,5 +71,5 @@ function mapStateToProps( state ) {
 }
 
 export default connect(
-  mapStateToProps, {}
+  mapStateToProps, { employeeUpdate }
 )(EmployeeEdit);

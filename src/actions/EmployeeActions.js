@@ -103,3 +103,10 @@ export const employeesFetch = _ => async (dispatch) => {
     fetchEmployeesFailed(dispatch);
   }
 }
+
+export const employeeEdit = (employee) => {
+  return {
+    type: EMPLOYEE_EDIT,
+    payload: employee
+  } 
+}

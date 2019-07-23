@@ -2,6 +2,7 @@ import { EMPLOYEE_CREATE, EMPLOYEE_CREATE_SUCCESS,
   EMPLOYEE_UPDATE, EMPLOYEE_CREATE_FAILED } from '../actions/types';
 
 const INITIAL_STATE = {
+  id: null,
   name: null,
   phone: null,
   shift: null,

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import { Button, Card, CardSection, Spinner } from '../components/common';
 import EmployeeItem from './EmployeeItem';
@@ -11,6 +12,11 @@ class EmployeeList extends Component {
     this.props.employeesFetch();
   }
 
+  onEmployeeTapped = employee => {
+    // console.log(`[DEBUG]<onEmployeeTapped> employee: \n`, employee);
+    Actions.employeeEdit({employee});
+  }
+
   keyExtractor = item => item.id.toString();
 
   renderItem = ({ item }) => {
@@ -18,7 +24,7 @@ class EmployeeList extends Component {
       return null;
     }
 
-    return <EmployeeItem Item={ item } />
+    return <EmployeeItem onRowPress={ this.onEmployeeTapped } Item={ item } />
   }
 
   renderErrorRefreshButton = error => {

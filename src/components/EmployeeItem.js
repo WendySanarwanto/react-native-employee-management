@@ -5,8 +5,10 @@ import { Actions } from 'react-native-router-flux';
 
 class EmployeeItem extends Component {
   onTapped = (employeeItem) => {
-    console.log(`[DEBUG]<onTapped> employeeItem: \n`, employeeItem);
-    Actions.employeeEdit({ employee: employeeItem });
+    const { onRowPress } = this.props;
+    if (onRowPress) {
+      onRowPress(employeeItem);
+    }
   }
 
   render() {

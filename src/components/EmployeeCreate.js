@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Button, CardSection, Spinner } from '../components/common';
-import { employeeCreate } from '../actions/EmployeeActions';
+import { employeeCreate, employeeUpdate } from '../actions/EmployeeActions';
 
 import EmployeeForm from './EmployeeForm';
 
 class EmployeeCreate extends Component {
+  componentDidMount() {
+    const {employee, employeeUpdate} = this.props;
+    // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> employee: \n`, employee);
+    if (employee) {
+      const empEntries = Object.entries(employee);
+      // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> empEntries: \n`, empEntries);
+      empEntries.forEach(keyvaluePairs => employeeUpdate({ prop: keyvaluePairs[0], value: null }));
+    }    
+
+  }
+
   onSaveButtonClicked = () => {
     const { name, phone, shift, employeeCreate } = this.props;
     // console.log(`[DEBUG]<EmployeeCreate.onSaveButtonClicked()> name: ${name}, phone: ${phone}, shift: ${shift}`);
@@ -49,6 +60,7 @@ function mapStateToProps( state ) {
 
 export default connect(
   mapStateToProps, { 
-    employeeCreate 
+    employeeCreate, 
+    employeeUpdate
   }
 )(EmployeeCreate);
