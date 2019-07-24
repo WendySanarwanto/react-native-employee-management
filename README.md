@@ -37,6 +37,12 @@ A React Native mobile app sample which demonstrate view navigation, simple authe
       FIREBASE_MESSAGING_SENDER_ID=xyzabc
       FIREBASE_APP_ID=xyzabc
 
+* Back to [Firebase](https://firebase.google.com/) web console's main dashboard, click `Develop -> Authentication` menu. 
+
+* On the __Authentication__ page, click `Sign-in method` tab link. Then, on the `Sign-in providers` list, enable `Email/Password` authentication method.
+
+* Click `Users` tab link and then add a new user. Make note the user's email address and password (__Note: email address can be a fictional address__).
+
 ## How to run the app on Android Simulator
 
 * Run the Android Simulator from __Android Studio__.
