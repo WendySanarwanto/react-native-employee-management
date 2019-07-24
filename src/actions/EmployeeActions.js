@@ -7,7 +7,8 @@ import { EMPLOYEE_CREATE, EMPLOYEE_CREATE_FAILED,
   EMPLOYEE_FETCH, EMPLOYEE_FETCH_FAILED,
   EMPLOYEE_FETCH_SUCCESS, EMPLOYEE_SAVE,
   EMPLOYEE_SAVE_SUCCESS, EMPLOYEE_SAVE_FAILED,
-  EMPLOYEE_RESET
+  EMPLOYEE_RESET, EMPLOYEE_DELETE,
+  EMPLOYEE_DELETE_SUCCESS, EMPLOYEE_DELETE_FAILED
 } from './types';
 
 function dispatchFailedState(dispatch, type){
@@ -24,6 +25,10 @@ function fetchEmployeesFailed(dispatch){
 
 function saveEmployeeFailed(dispatch) {
   dispatchFailedState(dispatch, EMPLOYEE_SAVE_FAILED);
+}
+
+function deleteEmployeeFailed(dispatch) {
+  dispatchFailedState(dispatch, EMPLOYEE_DELETE_FAILED);
 }
 
 function createEmployeeSuccess(dispatch) {
@@ -45,6 +50,13 @@ function fetchEmployeesSuccess(dispatch, employees) {
     type: EMPLOYEE_FETCH_SUCCESS,
     payload: employees
   });
+}
+
+function deleteEmployeeSuccess(dispatch) {
+  dispatch({
+    type: EMPLOYEE_DELETE_SUCCESS
+  });
+  Actions.pop();
 }
 
 export const employeeCreate = ({ name, phone, shift }) => async(dispatch) => {
@@ -137,5 +149,18 @@ export const employeeSave = ({id, name, phone, shift}) => async(dispatch) => {
   } catch(err) {
     console.log(`[ERROR]<employeeSave> err: \n`, err);
     saveEmployeeFailed(dispatch);
+  }
+}
+
+export const employeeDelete = ({id}) => async(dispatch) => {
+  dispatch({ type: EMPLOYEE_DELETE });
+  try {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    await db.collection(`users/${currentUser.uid}/employees/`).doc(id).delete();
+    deleteEmployeeSuccess(dispatch);
+  } catch(err) {
+    console.log(`[ERROR]<employeeDelete> err: \n`, err);
+    deleteEmployeeFailed(dispatch);
   }
 }

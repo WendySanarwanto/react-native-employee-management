@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Communications from 'react-native-communications';
 
-import { Button, CardSection, Spinner } from '../components/common';
+import { Button, CardSection, ConfirmDialog, Spinner } from '../components/common';
 import EmployeeForm from './EmployeeForm';
-import { employeeUpdate, employeeSave } from '../actions/EmployeeActions';
+import { employeeUpdate, employeeSave, employeeDelete } from '../actions/EmployeeActions';
 
 class EmployeeEdit extends Component {
+  state = { showConfirmDialog: false };
   componentDidMount() {
     const {employee, employeeUpdate} = this.props;
     // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> employee: \n`, employee);
@@ -24,20 +25,31 @@ class EmployeeEdit extends Component {
     this.props.employeeSave({ id, name, phone, shift });
   }
 
-  onDeleteButtonClicked = () => {
-    const { id, name, phone, shift } = this.props;
-    console.log(`[DEBUG]<EmployeeEdit.onDeleteButtonClicked()> id: ${id}, name: ${name}, phone: ${phone}, shift: ${shift}`);
-  }
-
   onTextScheduleButtonClicked = () => {
     const { phone, shift } = this.props;
     Communications.text(phone, `Your upcoming shift is on ${shift}.`);
   }
 
+  onFireEmployeeButtonClicked = () => {
+    this.setState({ showConfirmDialog: !this.state.showConfirmDialog })
+  }
+
+  onConfirmFireEmployee = () => {
+    const { id, employeeDelete } = this.props;
+    this.setState({ showConfirmDialog: false });
+    employeeDelete({ id });
+  }
+
   renderButtonsOrSpinner = () => {
     const { saving } = this.props;
     if (saving) {
-      return <Spinner />
+      return (
+        <View>
+          <CardSection>
+            <Spinner />
+          </CardSection>
+        </View>
+      );
     }
 
     return (
@@ -49,8 +61,15 @@ class EmployeeEdit extends Component {
           <Button label="Text Schedule" onClicked={ this.onTextScheduleButtonClicked } />
         </CardSection>
         <CardSection>
-          <Button label="Delete" onClicked={ this.onDeleteButtonClicked } />
+          <Button label="Fire" onClicked={ this.onFireEmployeeButtonClicked } />
         </CardSection>
+
+        <ConfirmDialog 
+          visible={this.state.showConfirmDialog} 
+          onDecline={ ()=> this.setState({ showConfirmDialog: false }) }
+          onAccept={ this.onConfirmFireEmployee }>
+          Are you sure you want to delete this employee ?
+        </ConfirmDialog>
       </View>
     );
   }
@@ -79,5 +98,5 @@ function mapStateToProps( state ) {
 }
 
 export default connect(
-  mapStateToProps, { employeeSave, employeeUpdate }
+  mapStateToProps, { employeeSave, employeeUpdate, employeeDelete }
 )(EmployeeEdit);
