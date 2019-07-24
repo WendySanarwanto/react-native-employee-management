@@ -12,6 +12,8 @@ A React Native mobile app sample which demonstrate view navigation, simple authe
 
 * __XCode__.
 
+* [Firebase](https://firebase.google.com/) account.
+
 ## Setup
 
 * Clone this repository: `git clone https://github.com/WendySanarwanto/react-native-tech-stack.git`.
@@ -22,6 +24,19 @@ A React Native mobile app sample which demonstrate view navigation, simple authe
 
 * Run `cd android/app && keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 && cd ../..` for creating required developer certificate.
 
+* Login into your [Firebase](https://firebase.google.com/) web console, create a new project and create a new Web Application in the project. 
+
+* On the [Firebase](https://firebase.google.com/) web console, click `Project Settings` menu then make notes the `firebaseConfig`.
+
+* Create a `.env` file in the cloned repo's root directory. Write down these parameters inside the `.env` file and assign them with values of `firebaseConfig` you have noted in prior step. Example:
+
+      FIREBASE_API_KEY=xyzabc
+      FIREBASE_AUTH_DOMAIN=xyzabc
+      FIREBASE_DB_URL=xyzabc
+      FIREBASE_PROJECT_ID=xyzabc
+      FIREBASE_MESSAGING_SENDER_ID=xyzabc
+      FIREBASE_APP_ID=xyzabc
+
 ## How to run the app on Android Simulator
 
 * Run the Android Simulator from __Android Studio__.
@@ -30,13 +45,13 @@ A React Native mobile app sample which demonstrate view navigation, simple authe
 
 ## How to run the app on an Android Phone
 
-* Ensure that your Android Phone's developer mode is enabled & activatied.
+* Ensure that your Android Phone's developer mode is enabled & activated.
 
 * Connect your Phone with the development machine using USB Cable.
 
 * Run `adb devices -l` command, to confirm that the Phone is already connected and has device id. Make note the device id.
 
-* Run `react-native run-android` command to build, install and run the app on your connected android phone.
+* Run `react-native run-android --deviceId <phone id you noted in prior step>` command to build, install and run the app on your connected android phone.
 
 ## How to run the app on iOS Simulator
 
