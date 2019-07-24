@@ -1,5 +1,8 @@
 import { EMPLOYEE_CREATE, EMPLOYEE_CREATE_SUCCESS,  
-  EMPLOYEE_UPDATE, EMPLOYEE_CREATE_FAILED } from '../actions/types';
+  EMPLOYEE_UPDATE, EMPLOYEE_CREATE_FAILED,
+  EMPLOYEE_SAVE, EMPLOYEE_SAVE_SUCCESS,
+  EMPLOYEE_SAVE_FAILED,
+  EMPLOYEE_RESET} from '../actions/types';
 
 const INITIAL_STATE = {
   id: null,
@@ -16,12 +19,17 @@ export default EmployeeFormReducer = (state = INITIAL_STATE, action) => {
       const updatedState = { ...state, [action.payload.prop]: action.payload.value };
       // console.log(`[DEBUG]<EmployeeFormReducer> updatedState: \n`, updatedState);
       return updatedState;
+    case EMPLOYEE_RESET:
     case EMPLOYEE_CREATE_SUCCESS:
+    case EMPLOYEE_SAVE_SUCCESS:
       return { ...state,  ...INITIAL_STATE};
+    case EMPLOYEE_SAVE_FAILED:
+        return { ...state, saving: false, error: 'Updating an Employee is failed.'};
     case EMPLOYEE_CREATE_FAILED:
       return { ...state, saving: false, error: 'Creating an Employee is failed.'};
     case EMPLOYEE_CREATE:
-      return { ...state, saving: true, error: ''};
+    case EMPLOYEE_SAVE:
+      return { ...state, saving: true, error: ''}
     default:
       return state;
   }

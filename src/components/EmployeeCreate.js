@@ -8,14 +8,18 @@ import EmployeeForm from './EmployeeForm';
 
 class EmployeeCreate extends Component {
   componentDidMount() {
-    const {employee, employeeUpdate} = this.props;
-    // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> employee: \n`, employee);
-    if (employee) {
-      const empEntries = Object.entries(employee);
-      // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> empEntries: \n`, empEntries);
-      empEntries.forEach(keyvaluePairs => employeeUpdate({ prop: keyvaluePairs[0], value: null }));
-    }    
-
+    // const {employee, employeeUpdate} = this.props;
+    // // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> employee: \n`, employee);
+    // if (employee) {
+    //   const empEntries = Object.entries(employee);
+    //   // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> empEntries: \n`, empEntries);
+    //   empEntries.forEach(keyvaluePairs => employeeUpdate({ prop: keyvaluePairs[0], value: null }));
+    // }    
+    const {employeeUpdate} = this.props;
+    employeeUpdate({prop:'id', value:null});
+    employeeUpdate({prop:'name', value:null});
+    employeeUpdate({prop:'phone', value:null});
+    employeeUpdate({prop:'shift', value:null});
   }
 
   onSaveButtonClicked = () => {

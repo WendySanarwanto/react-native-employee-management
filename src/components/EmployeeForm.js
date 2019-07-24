@@ -19,7 +19,7 @@ class EmployeeForm extends Component {
   }
 
   render() {
-    const { name, phone, shift } = this.props;
+    const { name, phone, shift, employeeUpdate } = this.props;
     return(
       <Card>
         <CardSection>
@@ -62,15 +62,15 @@ const styles = {
   }
 }
 
-// function mapStateToProps( state ) {  
-//   const { name, phone, shift, error } = state.employeeForm;
-//   // console.log(`[DEBUG]<EmployeeCreate.mapStateToProps()> name: ${name}, phone: ${phone}, shift: ${shift}`);
-//   return {
-//     name,
-//     phone,
-//     shift,
-//     error,
-//   };
-// }
+function mapStateToProps( state ) {  
+  const { name, phone, shift, error } = state.employeeForm;
+  console.log(`[DEBUG]<EmployeeForm.mapStateToProps()> name: ${name}, phone: ${phone}, shift: ${shift}`);
+  return {
+    name,
+    phone,
+    shift,
+    error,
+  };
+}
 
-export default connect(null, {employeeUpdate})(EmployeeForm);
+export default connect(mapStateToProps, {employeeUpdate})(EmployeeForm);

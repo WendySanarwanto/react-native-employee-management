@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import { Button, CardSection, Spinner } from '../components/common';
 import EmployeeForm from './EmployeeForm';
-import { employeeUpdate } from '../actions/EmployeeActions';
+import { employeeUpdate, employeeSave } from '../actions/EmployeeActions';
 
 class EmployeeEdit extends Component {
   componentDidMount() {
@@ -19,8 +19,8 @@ class EmployeeEdit extends Component {
 
   onSaveButtonClicked = () => {
     const { id, name, phone, shift } = this.props;
-    console.log(`[DEBUG]<EmployeeEdit.onSaveButtonClicked()> id: ${id}, name: ${name}, phone: ${phone}, shift: ${shift}`);
-  //   employeeCreate({ name, phone, shift: shift || 'Monday' });
+    // console.log(`[DEBUG]<EmployeeEdit.onSaveButtonClicked()> id: ${id}, name: ${name}, phone: ${phone}, shift: ${shift}`);
+    this.props.employeeSave({ id, name, phone, shift });
   }
 
   onDeleteButtonClicked = () => {
@@ -50,7 +50,7 @@ class EmployeeEdit extends Component {
     // const { name, phone, shift, employeeUpdate } = this.props;
     // console.log(`[DEBUG]<EmployeeCreate.render()> name: ${name}, phone: ${phone}, shift: ${shift}`);
     return (
-      <EmployeeForm {...this.props}>
+      <EmployeeForm>
         { this.renderButtonsOrSpinner() }
       </EmployeeForm>
     );
@@ -58,7 +58,7 @@ class EmployeeEdit extends Component {
 };
 
 function mapStateToProps( state ) {  
-  const { id, name, phone, shift, saving, error } = state.employeeForm;
+  const { id, name, phone, shift, saving, } = state.employeeForm;
   // console.log(`[DEBUG]<EmployeeCreate.mapStateToProps()> name: ${name}, phone: ${phone}, shift: ${shift}`);
   return {
     id,
@@ -66,10 +66,9 @@ function mapStateToProps( state ) {
     phone,
     shift,
     saving,
-    error,
   };
 }
 
 export default connect(
-  mapStateToProps, { employeeUpdate }
+  mapStateToProps, { employeeSave, employeeUpdate }
 )(EmployeeEdit);

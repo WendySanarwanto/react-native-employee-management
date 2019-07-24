@@ -5,7 +5,10 @@ import { Actions } from 'react-native-router-flux';
 import { EMPLOYEE_CREATE, EMPLOYEE_CREATE_FAILED, 
   EMPLOYEE_CREATE_SUCCESS, EMPLOYEE_UPDATE,
   EMPLOYEE_FETCH, EMPLOYEE_FETCH_FAILED,
-  EMPLOYEE_FETCH_SUCCESS } from './types';
+  EMPLOYEE_FETCH_SUCCESS, EMPLOYEE_SAVE,
+  EMPLOYEE_SAVE_SUCCESS, EMPLOYEE_SAVE_FAILED,
+  EMPLOYEE_RESET
+} from './types';
 
 function dispatchFailedState(dispatch, type){
   dispatch({ type });
@@ -19,9 +22,20 @@ function fetchEmployeesFailed(dispatch){
   dispatchFailedState(dispatch, EMPLOYEE_FETCH_FAILED);
 }
 
+function saveEmployeeFailed(dispatch) {
+  dispatchFailedState(dispatch, EMPLOYEE_SAVE_FAILED);
+}
+
 function createEmployeeSuccess(dispatch) {
   dispatch({
     type: EMPLOYEE_CREATE_SUCCESS,
+  });
+  Actions.pop();
+}
+
+function saveEmployeeSuccess(dispatch) {
+  dispatch({
+    type: EMPLOYEE_SAVE_SUCCESS
   });
   Actions.pop();
 }
@@ -32,7 +46,6 @@ function fetchEmployeesSuccess(dispatch, employees) {
     payload: employees
   });
 }
-
 
 export const employeeCreate = ({ name, phone, shift }) => async(dispatch) => {
   // TODO: implement this
@@ -104,9 +117,25 @@ export const employeesFetch = _ => async (dispatch) => {
   }
 }
 
-export const employeeEdit = (employee) => {
-  return {
-    type: EMPLOYEE_EDIT,
-    payload: employee
-  } 
+export const employeeReset = _ => {
+  dispatch({
+    type: EMPLOYEE_RESET
+  })
+}
+
+export const employeeSave = ({id, name, phone, shift}) => async(dispatch) => {
+  dispatch({ type: EMPLOYEE_SAVE })
+  try {
+    const { currentUser } = firebase.auth();
+    const db = firebase.firestore();
+    await db.collection(`users/${currentUser.uid}/employees/`).doc(id).update({
+      name, 
+      phone, 
+      shift
+    });
+    saveEmployeeSuccess(dispatch);
+  } catch(err) {
+    console.log(`[ERROR]<employeeSave> err: \n`, err);
+    saveEmployeeFailed(dispatch);
+  }
 }
