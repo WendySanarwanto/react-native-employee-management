@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
+import Communications from 'react-native-communications';
 
 import { Button, CardSection, Spinner } from '../components/common';
 import EmployeeForm from './EmployeeForm';
@@ -28,6 +29,11 @@ class EmployeeEdit extends Component {
     console.log(`[DEBUG]<EmployeeEdit.onDeleteButtonClicked()> id: ${id}, name: ${name}, phone: ${phone}, shift: ${shift}`);
   }
 
+  onTextScheduleButtonClicked = () => {
+    const { phone, shift } = this.props;
+    Communications.text(phone, `Your upcoming shift is on ${shift}.`);
+  }
+
   renderButtonsOrSpinner = () => {
     const { saving } = this.props;
     if (saving) {
@@ -37,7 +43,10 @@ class EmployeeEdit extends Component {
     return (
       <View>
         <CardSection>
-          <Button label="Save" onClicked={ this.onSaveButtonClicked } />
+          <Button label="Save Changes" onClicked={ this.onSaveButtonClicked } />
+        </CardSection>
+        <CardSection>
+          <Button label="Text Schedule" onClicked={ this.onTextScheduleButtonClicked } />
         </CardSection>
         <CardSection>
           <Button label="Delete" onClicked={ this.onDeleteButtonClicked } />
