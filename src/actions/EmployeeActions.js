@@ -118,9 +118,9 @@ export const employeesFetch = _ => async (dispatch) => {
 }
 
 export const employeeReset = _ => {
-  dispatch({
+  return {
     type: EMPLOYEE_RESET
-  })
+  };
 }
 
 export const employeeSave = ({id, name, phone, shift}) => async(dispatch) => {

@@ -2,24 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Button, CardSection, Spinner } from '../components/common';
-import { employeeCreate, employeeUpdate } from '../actions/EmployeeActions';
+import { employeeCreate, employeeReset } from '../actions/EmployeeActions';
 
 import EmployeeForm from './EmployeeForm';
 
 class EmployeeCreate extends Component {
   componentDidMount() {
-    // const {employee, employeeUpdate} = this.props;
-    // // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> employee: \n`, employee);
-    // if (employee) {
-    //   const empEntries = Object.entries(employee);
-    //   // console.log(`[DEBUG]<EmployeeEdit.componentDidMount()> empEntries: \n`, empEntries);
-    //   empEntries.forEach(keyvaluePairs => employeeUpdate({ prop: keyvaluePairs[0], value: null }));
-    // }    
-    const {employeeUpdate} = this.props;
-    employeeUpdate({prop:'id', value:null});
-    employeeUpdate({prop:'name', value:null});
-    employeeUpdate({prop:'phone', value:null});
-    employeeUpdate({prop:'shift', value:null});
+    const {employeeReset} = this.props;
+    employeeReset();
   }
 
   onSaveButtonClicked = () => {
@@ -38,8 +28,6 @@ class EmployeeCreate extends Component {
   }
 
   render(){    
-    // const { name, phone, shift, employeeUpdate } = this.props;
-    // console.log(`[DEBUG]<EmployeeCreate.render()> name: ${name}, phone: ${phone}, shift: ${shift}`);
     return (
       <EmployeeForm {...this.props}>
         <CardSection>
@@ -65,6 +53,6 @@ function mapStateToProps( state ) {
 export default connect(
   mapStateToProps, { 
     employeeCreate, 
-    employeeUpdate
+    employeeReset
   }
 )(EmployeeCreate);
